@@ -95,6 +95,30 @@ body, html {
   line-height: 1.45;
 }
 
+.header-desc-text {
+  display: block;
+}
+
+.header-credit {
+  color: var(--text-main);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.header-video-link {
+  display: inline-block;
+  margin-left: 10px;
+  color: var(--accent-color);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+}
+
+.header-video-link:hover {
+  color: #ffffff;
+}
+
 /* 右側控制面板 */
 .controls-panel {
   position: absolute;
@@ -926,7 +950,15 @@ input:checked + .slider:before {
   }
 
   .header-desc {
+    margin-top: 2px;
+  }
+
+  .header-desc-text {
     display: none;
+  }
+
+  .header-video-link {
+    padding: 6px 0;
   }
 
   .floating-dock-btn {
