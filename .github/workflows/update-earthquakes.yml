@@ -1,0 +1,59 @@
+name: Update and deploy earthquake site
+
+on:
+  push:
+  schedule:
+    - cron: '23 18 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: earthquake-site
+  cancel-in-progress: false
+
+jobs:
+  update:
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update catalog
+        run: python3 scripts/update_earthquakes.py
+      - name: Commit updated data
+        run: |
+          if git diff --quiet -- data/earthquakes.csv data/earthquakes-meta.json && [ -z "$(git ls-files --others --exclude-standard data/earthquakes-meta.json)" ]; then
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/earthquakes.csv data/earthquakes-meta.json
+          git commit -m 'Update earthquake catalog'
+          git push
+
+  deploy:
+    needs: update
+    if: always() && (needs.update.result == 'success' || needs.update.result == 'skipped') && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+      - uses: actions/configure-pages@v5
+      - name: Prepare site
+        run: |
+          mkdir -p _site/data
+          cp index.html app.js style.css _site/
+          cp data/earthquakes.csv data/earthquakes-meta.json data/terrain_grid.json data/taiwan_coastline.geojson.json _site/data/
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

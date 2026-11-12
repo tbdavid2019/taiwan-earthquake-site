@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>台灣地震 3D 空間分佈 (1990–2025)</title>
+  <title>台灣地震 3D 空間分佈</title>
   <link rel="stylesheet" href="style.css">
   <!-- 引入 Three.js 與 OrbitControls (使用官方 CDN) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -27,7 +27,7 @@
       <span class="header-badge">1:1 真實比例</span>
     </h1>
     <p class="header-desc">
-      <span class="header-desc-text">1990–2025 年真實震源資料，掀開地表看板塊。</span>
+      <span class="header-desc-text" id="catalog-description">真實震源資料，掀開地表看板塊。</span>
       <span class="header-credit">由 101事務所 製作</span>
       <a class="header-video-link" href="https://youtu.be/AB3mBFUOFk4" target="_blank" rel="noopener">▶ 看這個模型的製作影片</a>
     </p>
@@ -71,10 +71,10 @@
         <input type="range" id="slider-year" min="1990" max="2025" value="2025" step="1" class="custom-slider">
         <div class="slider-hint">顯示 1990 年起至選定年份之累積地震</div>
         <div class="filter-action-row" style="margin-top: 6px;">
-          <button id="btn-play-years" class="btn btn-action" title="播放 1990 至 2025 年逐年累積動畫">
+          <button id="btn-play-years" class="btn btn-action" title="播放逐年累積動畫">
             <span id="play-btn-text">▶ 播放逐年累積</span>
           </button>
-          <button id="btn-reset-years" class="btn btn-action-sub" title="恢復顯示 1990 至 2025 全部年份">
+          <button id="btn-reset-years" class="btn btn-action-sub" title="恢復顯示全部年份">
             <span>全部年份</span>
           </button>
         </div>
@@ -305,11 +305,19 @@
       </div>
       <div class="info-row">
         <span class="info-label">資料庫總筆數：</span>
-        <span class="info-value" id="stat-total-points">73,729 筆</span>
+        <span class="info-value" id="stat-total-points">載入中...</span>
       </div>
       <div class="info-row">
         <span class="info-label">時間範圍：</span>
-        <span class="info-value">1990-01-01 ～ 2025-12-31</span>
+        <span class="info-value" id="catalog-range">載入中...</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">官方目錄發布：</span>
+        <span class="info-value" id="catalog-issued">載入中...</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">本年度目錄涵蓋至：</span>
+        <span class="info-value" id="catalog-coverage">載入中...</span>
       </div>
       <div class="info-row">
         <span class="info-label">垂直/水平比例：</span>
@@ -317,7 +325,7 @@
       </div>
       <div class="info-divider"></div>
       <div class="source-text">
-        地震資料：交通部中央氣象署地震目錄（1990–2025），政府資料開放授權<br>
+        地震資料：交通部中央氣象署地震目錄，政府資料開放授權<br>
         地形資料：NOAA ETOPO 2022 / GEBCO (15 弧秒網格)，公有領域 (Public Domain)<br>
         海岸線圖資：g0v 社群台灣邊界圖資，政府資料開放授權
       </div>

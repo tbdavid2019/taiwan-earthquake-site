@@ -193,7 +193,8 @@ let allEarthquakes = [];
 let commonRangeOnly = true;
 
 // 第四階段：時間、規模、Quality 篩選狀態
-let currentMaxYear = 2025; // 逐年累積截止年份 (1990–2025)
+let catalogMaxYear = 2025;
+let currentMaxYear = catalogMaxYear;
 let minMagnitude = 3.0;    // 芮氏規模下限 (預設全部 3.0)
 let selectedQualities = new Set(['A', 'B', 'C', 'D']); // Quality 等級篩選 (預設全選)
 let isPlayingYears = false; // 是否正在逐年累積播放中
@@ -705,7 +706,7 @@ async function loadTerrain() {
 // ==============================================================================
 
 async function loadEarthquakes() {
-  loadingDetail.innerText = '正在讀取 data/earthquakes.csv (73,729 筆真實地震)...';
+  loadingDetail.innerText = '正在讀取地震目錄...';
   const res = await fetch('data/earthquakes.csv');
   if (!res.ok) throw new Error(`無法載入 earthquakes.csv: ${res.status}`);
   const csvText = await res.text();
@@ -783,6 +784,25 @@ async function loadEarthquakes() {
     });
   }
 
+  catalogMaxYear = allEarthquakes.reduce((max, eq) => Math.max(max, eq.year), 1990);
+  currentMaxYear = catalogMaxYear;
+  document.getElementById('slider-year').max = catalogMaxYear;
+  document.getElementById('catalog-description').innerText = `1990–${catalogMaxYear} 年真實震源資料，掀開地表看板塊。`;
+  const latestTime = allEarthquakes.reduce((latest, eq) => eq.originTime > latest ? eq.originTime : latest, '');
+  document.getElementById('catalog-range').innerText = `1990-01-01 ～ ${latestTime.slice(0, 10)}（最後一筆地震）`;
+  updateYearDisplay();
+  try {
+    const metadataResponse = await fetch('data/earthquakes-meta.json');
+    if (!metadataResponse.ok) throw new Error(`HTTP ${metadataResponse.status}`);
+    const metadata = await metadataResponse.json();
+    document.getElementById('catalog-issued').innerText = `${metadata.current_catalog_issued_at.slice(0, 10)}（本年度目錄）`;
+    document.getElementById('catalog-coverage').innerText = `${metadata.current_catalog_end_exclusive.slice(0, 16).replace('T', ' ')}（台灣時間，不含）`;
+  } catch (err) {
+    console.error('載入目錄發布時間失敗:', err);
+    document.getElementById('catalog-issued').innerText = '暫無資料';
+    document.getElementById('catalog-coverage').innerText = '暫無資料';
+  }
+
   // 建立點雲 BufferGeometry
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -858,8 +878,8 @@ function updateYearDisplay() {
   const label = document.getElementById('val-year-display');
   if (slider) slider.value = currentMaxYear;
   if (label) {
-    if (currentMaxYear === 2025) {
-      label.innerText = '1990 – 2025 (全部)';
+    if (currentMaxYear === catalogMaxYear) {
+      label.innerText = `1990 – ${catalogMaxYear} (全部)`;
     } else {
       label.innerText = `1990 – ${currentMaxYear}`;
     }
@@ -867,7 +887,7 @@ function updateYearDisplay() {
 }
 
 function startPlayingYears() {
-  if (currentMaxYear >= 2025) {
+  if (currentMaxYear >= catalogMaxYear) {
     currentMaxYear = 1990;
   }
   isPlayingYears = true;
@@ -880,7 +900,7 @@ function startPlayingYears() {
   applyFilters();
 
   playTimer = setInterval(() => {
-    if (currentMaxYear < 2025) {
+    if (currentMaxYear < catalogMaxYear) {
       currentMaxYear++;
       updateYearDisplay();
       applyFilters();
@@ -1043,7 +1063,7 @@ function setupUIEvents() {
   if (btnResetYears) {
     btnResetYears.addEventListener('click', () => {
       stopPlayingYears();
-      currentMaxYear = 2025;
+      currentMaxYear = catalogMaxYear;
       updateYearDisplay();
       applyFilters();
     });
