@@ -787,7 +787,6 @@ async function loadEarthquakes() {
   catalogMaxYear = allEarthquakes.reduce((max, eq) => Math.max(max, eq.year), 1990);
   currentMaxYear = catalogMaxYear;
   document.getElementById('slider-year').max = catalogMaxYear;
-  document.getElementById('catalog-description').innerText = `1990–${catalogMaxYear} 年真實震源資料，掀開地表看板塊。`;
   const latestTime = allEarthquakes.reduce((latest, eq) => eq.originTime > latest ? eq.originTime : latest, '');
   document.getElementById('catalog-range').innerText = `1990-01-01 ～ ${latestTime.slice(0, 10)}（最後一筆地震）`;
   updateYearDisplay();

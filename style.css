@@ -99,25 +99,6 @@ body, html {
   display: block;
 }
 
-.header-credit {
-  color: var(--text-main);
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.header-video-link {
-  display: inline-block;
-  margin-left: 10px;
-  color: var(--accent-color);
-  font-weight: 700;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  white-space: nowrap;
-}
-
-.header-video-link:hover {
-  color: #ffffff;
-}
 
 /* 右側控制面板 */
 .controls-panel {

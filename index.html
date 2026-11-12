@@ -3,7 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>台灣地震 3D 空間分佈</title>
+  <title>台灣地震 3D 互動圖｜探索震源深度與板塊結構</title>
+  <meta name="description" content="以 3D 互動圖探索台灣地震震源分布，依年份、規模與深度觀察地震目錄和地底板塊結構。資料來自中央氣象署，定期更新。">
+  <meta name="theme-color" content="#0b0f17">
+  <link rel="canonical" href="https://tbdavid2019.github.io/taiwan-earthquake-site/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="台灣地震 3D 互動圖">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:title" content="台灣地震 3D 互動圖｜探索震源深度與板塊結構">
+  <meta property="og:description" content="以 3D 互動圖探索台灣地震震源分布，依年份、規模與深度觀察地震目錄和地底板塊結構。資料來自中央氣象署，定期更新。">
+  <meta property="og:url" content="https://tbdavid2019.github.io/taiwan-earthquake-site/">
+  <meta property="og:image" content="https://tbdavid2019.github.io/taiwan-earthquake-site/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="台灣地震 3D 互動圖，呈現台灣地形與地震震源分布">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="台灣地震 3D 互動圖｜探索震源深度與板塊結構">
+  <meta name="twitter:description" content="以 3D 互動圖探索台灣地震震源分布，依年份、規模與深度觀察地震目錄和地底板塊結構。資料來自中央氣象署，定期更新。">
+  <meta name="twitter:image" content="https://tbdavid2019.github.io/taiwan-earthquake-site/og-image.png">
+  <meta name="twitter:image:alt" content="台灣地震 3D 互動圖，呈現台灣地形與地震震源分布">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "台灣地震 3D 互動圖｜探索震源深度與板塊結構",
+    "description": "以 3D 互動圖探索台灣地震震源分布，依年份、規模與深度觀察地震目錄和地底板塊結構。資料來自中央氣象署，定期更新。",
+    "url": "https://tbdavid2019.github.io/taiwan-earthquake-site/",
+    "inLanguage": "zh-TW"
+  }
+  </script>
   <link rel="stylesheet" href="style.css">
   <!-- 引入 Three.js 與 OrbitControls (使用官方 CDN) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -27,9 +59,8 @@
       <span class="header-badge">1:1 真實比例</span>
     </h1>
     <p class="header-desc">
-      <span class="header-desc-text" id="catalog-description">真實震源資料，掀開地表看板塊。</span>
-      <span class="header-credit">由 101事務所 製作</span>
-      <a class="header-video-link" href="https://youtu.be/AB3mBFUOFk4" target="_blank" rel="noopener">▶ 看這個模型的製作影片</a>
+      <span class="header-desc-text">david888.com 技術修改版</span>
+      <span class="header-desc-text">(初代版本 101事務所製作)</span>
     </p>
   </header>
 
