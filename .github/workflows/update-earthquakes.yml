@@ -3,7 +3,7 @@ name: Update and deploy earthquake site
 on:
   push:
   schedule:
-    - cron: '23 18 * * *'
+    - cron: '23 18 * * 0'
   workflow_dispatch:
 
 permissions:
