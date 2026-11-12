@@ -8,7 +8,7 @@
 
 打開網站就能玩，電腦或手機都可以：
 
-**[打開台灣地震 3D 互動圖](https://studio-101.github.io/taiwan-earthquake-site/)**
+**[打開台灣地震 3D 互動圖](https://tbdavid2019.github.io/taiwan-earthquake-site/)**
 
 - 拖曳：旋轉視角
 - 滾輪或雙指縮放：放大縮小
